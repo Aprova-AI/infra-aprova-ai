@@ -30,13 +30,6 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -out=plan.tfplan
       
-    - name: Run Infracost
-      if: github.event_name == 'pull_request'
-      uses: infracost/infracost-action@v2
-      with:
-        path: plan.tfplan
-        api-key: ${{ secrets.INFRACOST_API_KEY }}
-        
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve plan.tfplan 
