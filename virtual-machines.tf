@@ -88,7 +88,7 @@ resource "azurerm_linux_virtual_machine" "vm_micro" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    disk_size_gb         = 20
+    disk_size_gb         = 30
   }
 
   source_image_reference {
@@ -123,7 +123,7 @@ resource "azurerm_linux_virtual_machine" "vm_ansible" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
-    disk_size_gb         = 20
+    disk_size_gb         = 30
   }
 
   source_image_reference {
