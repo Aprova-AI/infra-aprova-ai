@@ -1,1 +1,225 @@
-teste
+# Infraestrutura Azure - Aprova AI
+
+Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux equivalentes aos tamanhos EC2 especificados, incluindo rede virtual, segurança e monitoramento.
+
+## 🏗️ Arquitetura
+
+### Mapeamento de Tamanhos EC2 → Azure
+- **t4g.large** → **Standard_B2s** (2 vCPUs, 4 GB RAM)
+- **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM)
+- **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM)
+
+### Componentes da Infraestrutura
+- **Resource Group**: Agrupamento de recursos
+- **Virtual Network**: Rede virtual com subnet dedicada
+- **Network Security Group**: Regras de segurança (SSH, HTTP, HTTPS)
+- **3 VMs Linux**: Ubuntu 22.04 LTS com diferentes tamanhos
+- **Public IPs**: IPs públicos estáticos para cada VM
+- **Log Analytics**: Monitoramento e logs centralizados
+- **Azure Monitor**: Coleta de métricas de performance
+
+## 🚀 Pré-requisitos
+
+1. **GitHub Actions** configurado com Service Principal
+2. **Terraform** >= 1.0 (executado via CI/CD)
+3. **SSH Key Pair** gerado (para as VMs)
+4. **Infracost GitHub App** instalado na organização
+
+## 📋 Configuração
+
+### 1. Clone o repositório
+```bash
+git clone <repository-url>
+cd infra-aprova-ai
+```
+
+### 2. Configure as variáveis
+```bash
+# Copie o arquivo de exemplo
+cp terraform.tfvars.example terraform.tfvars
+
+# Edite o arquivo com suas configurações
+nano terraform.tfvars
+```
+
+### 3. Configure o SSH Key
+```bash
+# Gere uma nova chave SSH (se necessário)
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/azure_key
+
+# Copie a chave pública para o arquivo terraform.tfvars
+cat ~/.ssh/azure_key.pub
+```
+
+### 4. Configure o Backend (Opcional)
+Para usar estado remoto do Terraform:
+
+```bash
+# Crie um storage account para o backend
+az group create --name rg-terraform-backend --location "East US"
+az storage account create --name stterraformbackend --resource-group rg-terraform-backend --location "East US" --sku Standard_LRS
+az storage container create --name tfstate --account-name stterraformbackend
+```
+
+## 🔧 Uso
+
+### Fluxo de Trabalho (CI/CD)
+
+1. **Criar Pull Request**:
+   - O GitHub Actions executa `terraform plan`
+   - O Infracost GitHub App analisa os custos
+   - Ambos aparecem como comentários na PR
+
+2. **Aprovar e Fazer Merge**:
+   - O GitHub Actions executa `terraform apply`
+   - A infraestrutura é provisionada na Azure
+
+### Desenvolvimento Local (Opcional)
+```bash
+# Inicializar Terraform
+terraform init
+
+# Verificar plano
+terraform plan
+
+# Aplicar (apenas para testes locais)
+terraform apply
+```
+
+### Análise de Custos com Infracost
+```bash
+# Instalar Infracost (se não estiver instalado)
+# Windows: choco install infracost
+# macOS: brew install infracost
+# Linux: curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+# Análise de custos
+infracost breakdown --path .
+
+# Comparar com mudanças
+infracost diff --path .
+
+# Com configuração personalizada
+infracost breakdown --config-file infracost.yml
+```
+
+### 🔄 Integração com Pipeline CI/CD
+
+#### Autenticação Azure:
+- ✅ **Service Principal**: Configurado via `AZURE_CREDENTIALS` secret
+- ✅ **Provider**: Configurado vazio (autenticação via GitHub Actions)
+- ✅ **Workflow**: `.github/workflows/terraform.yml`
+
+#### Análise de Custos (Infracost):
+- ✅ **GitHub App**: Instalado na organização
+- ✅ **Comentários automáticos**: Aparecem diretamente na PR
+- ✅ **API Key**: Configurada como `INFRACOST_API_KEY` secret
+
+#### Fluxo de Trabalho:
+1. **Pull Request**: Executa `terraform plan` + análise de custos
+2. **Merge na main**: Executa `terraform apply`
+3. **Infracost**: Analisa automaticamente via GitHub App
+
+### Destruir a infraestrutura
+```bash
+terraform destroy
+```
+
+## 🔐 Segurança
+
+### Configurações Implementadas
+- ✅ Autenticação SSH por chave pública
+- ✅ Desabilitação de autenticação por senha
+- ✅ Network Security Group com regras restritivas
+- ✅ Subnet isolada para VMs
+- ✅ Tags para organização e governança
+
+### Recomendações de Segurança
+1. **Restrinja IPs SSH**: Configure `allowed_ssh_ips` apenas com IPs necessários
+2. **Use Azure Key Vault**: Para armazenar secrets e chaves
+3. **Habilite Azure Security Center**: Para monitoramento de segurança
+4. **Configure Backup**: Implemente backup das VMs
+5. **Use Managed Identity**: Para autenticação entre recursos
+
+## 📊 Monitoramento
+
+### Log Analytics Workspace
+- Coleta de logs do sistema
+- Métricas de performance
+- Retenção de 30 dias
+
+### Métricas Coletadas
+- CPU, Memory, Disk I/O
+- Network traffic
+- System logs (syslog)
+
+## 💰 Estimativa de Custos
+
+### Custos Mensais Estimados (US East)
+- **VM Large (Standard_B2s)**: ~$73/month
+- **VM XLarge (Standard_B4ms)**: ~$146/month  
+- **VM Micro (Standard_B1s)**: ~$18/month
+- **Total VMs**: ~$237/month
+- **Networking + Monitoring**: ~$50-100/month
+- **Total Estimado**: ~$287-337/month
+
+> ⚠️ **Nota**: Use `infracost breakdown --path .` para análise detalhada de custos.
+
+## 📁 Estrutura do Projeto
+
+```
+infra-aprova-ai/
+├── main.tf              # Recursos principais da infraestrutura
+├── variables.tf         # Definição de variáveis
+├── outputs.tf          # Outputs da infraestrutura
+├── terraform.tfvars.example  # Exemplo de configuração
+├── README.md           # Este arquivo
+└── .gitignore         # Arquivos ignorados pelo Git
+```
+
+## 🔄 Workflow Recomendado
+
+1. **Desenvolvimento**: Use `environment = "dev"`
+2. **Staging**: Use `environment = "staging"`
+3. **Produção**: Use `environment = "prod"`
+
+### Para diferentes ambientes:
+```bash
+# Desenvolvimento
+terraform plan -var="environment=dev" -var="resource_group_name=rg-aprova-ai-dev"
+
+# Staging
+terraform plan -var="environment=staging" -var="resource_group_name=rg-aprova-ai-staging"
+
+# Produção
+terraform plan -var="environment=prod" -var="resource_group_name=rg-aprova-ai-prod"
+```
+
+## 🛠️ Troubleshooting
+
+### Problemas Comuns
+
+1. **Erro de autenticação Azure**:
+   ```bash
+   az login
+   az account set --subscription <subscription-id>
+   ```
+
+2. **Erro de SSH Key**:
+   - Verifique se a chave pública está no formato correto
+   - Certifique-se de que não há quebras de linha extras
+
+3. **Erro de quota**:
+   - Verifique os limites da sua subscription
+   - Solicite aumento de quota se necessário
+
+## 📞 Suporte
+
+Para dúvidas ou problemas:
+1. Verifique os logs do Terraform
+2. Consulte a documentação da Azure
+3. Abra uma issue no repositório
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

@@ -1,0 +1,33 @@
+# Copy this file to terraform.tfvars and update the values
+
+# Resource Group Configuration
+resource_group_name = "rg-aprova-ai-prod"
+location            = "East US"
+
+# Environment Configuration
+environment = "prod"  # Options: dev, staging, prod
+
+# VM Configuration
+admin_username = "azureuser"
+
+# SSH Configuration
+# IMPORTANT: Replace with your actual SSH public key
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC..."
+
+# Security Configuration
+# WARNING: In production, restrict this to specific IP ranges
+allowed_ssh_ips = [
+  "YOUR_IP_ADDRESS/32",  # Replace with your IP address
+  # "10.0.0.0/8",        # Example: Allow from specific network
+]
+
+# Tags
+tags = {
+  Environment = "production"
+  Project     = "aprova-ai"
+  ManagedBy   = "terraform"
+  Owner       = "infrastructure-team"
+  CostCenter  = "engineering"
+}
+
+ 
