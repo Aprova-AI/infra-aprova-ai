@@ -60,8 +60,9 @@ variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
   default = {
-    Environment = "production"
+    Environment = "Prod"
     Project     = "aprova-ai"
+    Service     = "infrastructure"
     ManagedBy   = "terraform"
     Owner       = "infrastructure-team"
   }
