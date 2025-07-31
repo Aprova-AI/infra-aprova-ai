@@ -27,6 +27,11 @@ jobs:
     - name: Terraform Init
       run: terraform init
       
+    - name: Import Existing Resource Group
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        terraform import azurerm_resource_group.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod || echo "Resource group already imported or doesn't exist"
+      
     - name: Terraform Plan
       run: terraform plan -out=plan.tfplan
       env:
