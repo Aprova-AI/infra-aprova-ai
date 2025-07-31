@@ -36,9 +36,39 @@ jobs:
         TF_VAR_admin_username: "azureuser"
         TF_VAR_environment: "prod"
         
+    - name: Check Existing Resources
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: chmod +x check-resources.sh && ./check-resources.sh
+      env:
+        TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+        TF_VAR_admin_username: "azureuser"
+        TF_VAR_environment: "prod"
+        
     - name: Import All Resources
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: chmod +x import-resources.sh && ./import-resources.sh
+      run: |
+        echo "Importing Resource Group..."
+        terraform import azurerm_resource_group.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2
+        
+        echo "Importing Virtual Network..."
+        terraform import azurerm_virtual_network.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/virtualNetworks/vnet-prod
+        
+        echo "Importing Public IPs..."
+        terraform import azurerm_public_ip.vm_large /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-large-prod
+        terraform import azurerm_public_ip.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-xlarge-prod
+        terraform import azurerm_public_ip.vm_micro /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-micro-prod
+        terraform import azurerm_public_ip.vm_ansible /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-ansible-prod
+        
+        echo "Importing Network Security Groups..."
+        terraform import azurerm_network_security_group.vm_micro /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-micro-prod
+        terraform import azurerm_network_security_group.vm_large /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod
+        terraform import azurerm_network_security_group.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod
+        terraform import azurerm_network_security_group.vm_ansible /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-ansible-prod
+        
+        echo "Importing Log Analytics Workspace..."
+        terraform import azurerm_log_analytics_workspace.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.OperationalInsights/workspaces/law-prod
+        
+        echo "All resources imported successfully!"
       env:
         TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         TF_VAR_admin_username: "azureuser"
