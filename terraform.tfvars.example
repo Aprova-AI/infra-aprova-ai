@@ -23,8 +23,9 @@ allowed_ssh_ips = [
 
 # Tags
 tags = {
-  Environment = "production"
+  Environment = "Prod"
   Project     = "aprova-ai"
+  Service     = "infrastructure"
   ManagedBy   = "terraform"
   Owner       = "infrastructure-team"
   CostCenter  = "engineering"

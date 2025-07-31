@@ -1,7 +1,7 @@
 variable "resource_group_name" {
   description = "Name of the resource group"
   type        = string
-  default     = "rg-aprova-ai-prod"
+  default     = "rg-aprova-ai-prod-v2"
 }
 
 variable "location" {
@@ -60,8 +60,9 @@ variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
   default = {
-    Environment = "production"
+    Environment = "Prod"
     Project     = "aprova-ai"
+    Service     = "infrastructure"
     ManagedBy   = "terraform"
     Owner       = "infrastructure-team"
   }

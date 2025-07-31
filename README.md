@@ -5,15 +5,20 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
 ## 🏗️ Arquitetura
 
 ### Mapeamento de Tamanhos EC2 → Azure
-- **t4g.large** → **Standard_B2s** (2 vCPUs, 4 GB RAM)
-- **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM)
-- **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM)
+- **t4g.large** → **Standard_B2s** (2 vCPUs, 4 GB RAM) → `vm-aprova-ai-1`
+- **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-2`
+- **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-3`
+- **Ansible Control Node** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-4`
 
 ### Componentes da Infraestrutura
 - **Resource Group**: Agrupamento de recursos
-- **Virtual Network**: Rede virtual com subnet dedicada
-- **Network Security Group**: Regras de segurança (SSH, HTTP, HTTPS)
-- **3 VMs Linux**: Ubuntu 22.04 LTS com diferentes tamanhos
+- **Virtual Network**: Rede virtual `10.10.0.0/24` (East US)
+- **Network Security Groups**: Regras específicas para cada VM
+  - **VM Aprova AI 1**: TCP (22, 80, 443, 5432, 27072)
+  - **VM Aprova AI 2**: TCP (21, 22, 443, 27072, 5432)
+  - **VM Aprova AI 3**: TCP (22, 80, 443), UDP (10447)
+  - **VM Aprova AI 4 (Ansible)**: TCP (22)
+- **4 VMs Linux**: Debian 12 com diferentes tamanhos
 - **Public IPs**: IPs públicos estáticos para cada VM
 - **Log Analytics**: Monitoramento e logs centralizados
 - **Azure Monitor**: Coleta de métricas de performance
@@ -156,12 +161,13 @@ terraform destroy
 ## 💰 Estimativa de Custos
 
 ### Custos Mensais Estimados (US East)
-- **VM Large (Standard_B2s)**: ~$73/month
-- **VM XLarge (Standard_B4ms)**: ~$146/month  
-- **VM Micro (Standard_B1s)**: ~$18/month
-- **Total VMs**: ~$237/month
+- **VM Aprova AI 1 (Standard_B2s)**: ~$73/month
+- **VM Aprova AI 2 (Standard_B4ms)**: ~$146/month  
+- **VM Aprova AI 3 (Standard_B1s)**: ~$18/month
+- **VM Aprova AI 4 - Ansible (Standard_B1s)**: ~$18/month
+- **Total VMs**: ~$255/month
 - **Networking + Monitoring**: ~$50-100/month
-- **Total Estimado**: ~$287-337/month
+- **Total Estimado**: ~$305-355/month
 
 > ⚠️ **Nota**: Use `infracost breakdown --path .` para análise detalhada de custos.
 
@@ -223,3 +229,6 @@ Para dúvidas ou problemas:
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+---
+*Última atualização: Teste de infraestrutura Azure com 3 VMs*
