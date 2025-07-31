@@ -10,19 +10,19 @@ resource "azurerm_network_security_group" "vm_micro" {
 }
 
 # Regras do NSG para VM Micro
-resource "azurerm_network_security_rule" "micro_ssh" {
-  name                        = "SSH"
-  priority                    = 1001
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = var.allowed_ssh_ips
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.vm_micro.name
-}
+        resource "azurerm_network_security_rule" "micro_ssh" {
+          name                        = "SSH"
+          priority                    = 1001
+          direction                   = "Inbound"
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_port_range           = "*"
+          destination_port_range      = "22"
+          source_address_prefix       = var.allowed_ssh_ips[0]
+          destination_address_prefix  = "*"
+          resource_group_name         = azurerm_resource_group.main.name
+          network_security_group_name = azurerm_network_security_group.vm_micro.name
+        }
 
 resource "azurerm_network_security_rule" "micro_http" {
   name                        = "HTTP"
@@ -76,19 +76,19 @@ resource "azurerm_network_security_group" "vm_large" {
 }
 
 # Regras do NSG para VM Large
-resource "azurerm_network_security_rule" "large_ssh" {
-  name                        = "SSH"
-  priority                    = 1001
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = var.allowed_ssh_ips
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.vm_large.name
-}
+        resource "azurerm_network_security_rule" "large_ssh" {
+          name                        = "SSH"
+          priority                    = 1001
+          direction                   = "Inbound"
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_port_range           = "*"
+          destination_port_range      = "22"
+          source_address_prefix       = var.allowed_ssh_ips[0]
+          destination_address_prefix  = "*"
+          resource_group_name         = azurerm_resource_group.main.name
+          network_security_group_name = azurerm_network_security_group.vm_large.name
+        }
 
 resource "azurerm_network_security_rule" "large_http" {
   name                        = "HTTP"
@@ -156,19 +156,19 @@ resource "azurerm_network_security_group" "vm_xlarge" {
 }
 
 # Regras do NSG para VM XLarge
-resource "azurerm_network_security_rule" "xlarge_ssh" {
-  name                        = "SSH"
-  priority                    = 1001
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = var.allowed_ssh_ips
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.vm_xlarge.name
-}
+        resource "azurerm_network_security_rule" "xlarge_ssh" {
+          name                        = "SSH"
+          priority                    = 1001
+          direction                   = "Inbound"
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_port_range           = "*"
+          destination_port_range      = "22"
+          source_address_prefix       = var.allowed_ssh_ips[0]
+          destination_address_prefix  = "*"
+          resource_group_name         = azurerm_resource_group.main.name
+          network_security_group_name = azurerm_network_security_group.vm_xlarge.name
+        }
 
 resource "azurerm_network_security_rule" "xlarge_ftp" {
   name                        = "FTP"
@@ -252,19 +252,19 @@ resource "azurerm_network_security_group" "vm_ansible" {
 }
 
 # Regras do NSG para VM Ansible
-resource "azurerm_network_security_rule" "ansible_ssh" {
-  name                        = "SSH"
-  priority                    = 1001
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "22"
-  source_address_prefix       = var.allowed_ssh_ips
-  destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.main.name
-  network_security_group_name = azurerm_network_security_group.vm_ansible.name
-}
+        resource "azurerm_network_security_rule" "ansible_ssh" {
+          name                        = "SSH"
+          priority                    = 1001
+          direction                   = "Inbound"
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_port_range           = "*"
+          destination_port_range      = "22"
+          source_address_prefix       = var.allowed_ssh_ips[0]
+          destination_address_prefix  = "*"
+          resource_group_name         = azurerm_resource_group.main.name
+          network_security_group_name = azurerm_network_security_group.vm_ansible.name
+        }
 
 resource "azurerm_network_interface_security_group_association" "vm_ansible" {
   network_interface_id      = azurerm_network_interface.vm_ansible.id
