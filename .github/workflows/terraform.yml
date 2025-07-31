@@ -1,4 +1,4 @@
-name: Terraform CI/CD with Infracost
+name: Terraform CI/CD
 
 on:
   pull_request:
@@ -27,64 +27,16 @@ jobs:
     - name: Terraform Init
       run: terraform init
       
-
-      
     - name: Terraform Plan
-      run: terraform plan -out=plan.tfplan
+      run: terraform plan
       env:
         TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         TF_VAR_admin_username: "azureuser"
         TF_VAR_environment: "prod"
         
-
-        
-    - name: Clean Import Strategy
+    - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        echo "🧹 Limpando Terraform state..."
-        
-        # Remover recursos problemáticos do state
-        terraform state rm azurerm_log_analytics_workspace.main 2>/dev/null || true
-        terraform state rm azurerm_monitor_data_collection_rule.main 2>/dev/null || true
-        
-        echo "📥 Importando apenas os recursos necessários..."
-        
-        # Importar apenas o Resource Group e a VM que queremos modificar
-        terraform import azurerm_resource_group.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2
-        terraform import azurerm_linux_virtual_machine.vm_large /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Compute/virtualMachines/vm-aprova-ai-1
-        
-        echo "✅ State limpo e recursos importados!"
-        echo "🎯 Agora pode fazer terraform plan para ver apenas a mudança do disco"
-      env:
-        TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-        TF_VAR_admin_username: "azureuser"
-        TF_VAR_environment: "prod"
-        
-    - name: Terraform Plan (Target VM Large)
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        echo "🎯 Planejando mudanças APENAS na VM Large (vm-aprova-ai-1)..."
-        echo "📝 Isso vai mostrar apenas as mudanças no disco da VM"
-        
-        # Planejar apenas a VM específica
-        terraform plan -target=azurerm_linux_virtual_machine.vm_large
-        
-        echo "✅ Planejamento concluído! Apenas a VM Large será modificada."
-      env:
-        TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-        TF_VAR_admin_username: "azureuser"
-        TF_VAR_environment: "prod"
-        
-    - name: Terraform Apply (Target VM Large)
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        echo "🎯 Aplicando mudanças APENAS na VM Large (vm-aprova-ai-1)..."
-        echo "📝 Isso vai modificar apenas o disco da VM, sem tocar em outros recursos"
-        
-        # Aplicar apenas na VM específica
-        terraform apply -auto-approve -target=azurerm_linux_virtual_machine.vm_large
-        
-        echo "✅ Aplicação concluída! Apenas a VM Large foi modificada."
+      run: terraform apply -auto-approve
       env:
         TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         TF_VAR_admin_username: "azureuser"
