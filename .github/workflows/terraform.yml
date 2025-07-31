@@ -53,6 +53,9 @@ jobs:
         echo "Importing Virtual Network..."
         terraform import azurerm_virtual_network.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/virtualNetworks/vnet-prod
         
+        echo "Importing Subnet..."
+        terraform import azurerm_subnet.vm_subnet /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/virtualNetworks/vnet-prod/subnets/snet-vm-prod
+        
         echo "Importing Public IPs..."
         terraform import azurerm_public_ip.vm_large /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-large-prod
         terraform import azurerm_public_ip.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/publicIPAddresses/pip-vm-xlarge-prod
@@ -65,8 +68,25 @@ jobs:
         terraform import azurerm_network_security_group.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod
         terraform import azurerm_network_security_group.vm_ansible /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-ansible-prod
         
-        echo "Importing Log Analytics Workspace..."
-        terraform import azurerm_log_analytics_workspace.main /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.OperationalInsights/workspaces/law-prod
+        echo "Importing Network Security Rules..."
+        terraform import azurerm_network_security_rule.micro_ssh /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-micro-prod/securityRules/SSH
+        terraform import azurerm_network_security_rule.micro_http /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-micro-prod/securityRules/HTTP
+        terraform import azurerm_network_security_rule.micro_https /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-micro-prod/securityRules/HTTPS
+        terraform import azurerm_network_security_rule.micro_udp_10447 /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-micro-prod/securityRules/UDP-10447
+        
+        terraform import azurerm_network_security_rule.large_ssh /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/SSH
+        terraform import azurerm_network_security_rule.large_http /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/HTTP
+        terraform import azurerm_network_security_rule.large_https /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/HTTPS
+        terraform import azurerm_network_security_rule.large_postgres /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/PostgreSQL
+        terraform import azurerm_network_security_rule.large_port_27072 /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/Port-27072
+        
+        terraform import azurerm_network_security_rule.xlarge_ssh /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod/securityRules/SSH
+        terraform import azurerm_network_security_rule.xlarge_ftp /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod/securityRules/FTP
+        terraform import azurerm_network_security_rule.xlarge_https /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod/securityRules/HTTPS
+        terraform import azurerm_network_security_rule.xlarge_port_27072 /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod/securityRules/Port-27072
+        terraform import azurerm_network_security_rule.xlarge_postgres /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod/securityRules/PostgreSQL
+        
+        terraform import azurerm_network_security_rule.ansible_ssh /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-ansible-prod/securityRules/SSH
         
         echo "All resources imported successfully!"
       env:
