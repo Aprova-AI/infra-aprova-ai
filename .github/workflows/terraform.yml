@@ -53,10 +53,8 @@ jobs:
         terraform import azurerm_network_security_group.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-xlarge-prod
         terraform import azurerm_network_security_group.vm_ansible /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-ansible-prod
         
-        # Importar VMs
+        # Importar VMs (apenas as que existem)
         terraform import azurerm_linux_virtual_machine.vm_large /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Compute/virtualMachines/vm-aprova-ai-1
-        terraform import azurerm_linux_virtual_machine.vm_xlarge /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Compute/virtualMachines/vm-aprova-ai-2
-        terraform import azurerm_linux_virtual_machine.vm_micro /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Compute/virtualMachines/vm-aprova-ai-3
         terraform import azurerm_linux_virtual_machine.vm_ansible /subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Compute/virtualMachines/vm-aprova-ai-4
         
         echo "✅ Recursos importados com sucesso!"
