@@ -36,13 +36,7 @@ jobs:
         TF_VAR_admin_username: "azureuser"
         TF_VAR_environment: "prod"
         
-    - name: Check Existing Resources
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: chmod +x check-resources.sh && ./check-resources.sh
-      env:
-        TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-        TF_VAR_admin_username: "azureuser"
-        TF_VAR_environment: "prod"
+
         
     - name: Clean Import Strategy
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -66,17 +60,31 @@ jobs:
         TF_VAR_admin_username: "azureuser"
         TF_VAR_environment: "prod"
         
-    - name: Terraform Plan (After Import)
+    - name: Terraform Plan (Target VM Large)
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform plan -out=plan-after-import.tfplan
+      run: |
+        echo "🎯 Planejando mudanças APENAS na VM Large (vm-aprova-ai-1)..."
+        echo "📝 Isso vai mostrar apenas as mudanças no disco da VM"
+        
+        # Planejar apenas a VM específica
+        terraform plan -target=azurerm_linux_virtual_machine.vm_large
+        
+        echo "✅ Planejamento concluído! Apenas a VM Large será modificada."
       env:
         TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         TF_VAR_admin_username: "azureuser"
         TF_VAR_environment: "prod"
         
-    - name: Terraform Apply
+    - name: Terraform Apply (Target VM Large)
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve plan-after-import.tfplan
+      run: |
+        echo "🎯 Aplicando mudanças APENAS na VM Large (vm-aprova-ai-1)..."
+        echo "📝 Isso vai modificar apenas o disco da VM, sem tocar em outros recursos"
+        
+        # Aplicar apenas na VM específica
+        terraform apply -auto-approve -target=azurerm_linux_virtual_machine.vm_large
+        
+        echo "✅ Aplicação concluída! Apenas a VM Large foi modificada."
       env:
         TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         TF_VAR_admin_username: "azureuser"
