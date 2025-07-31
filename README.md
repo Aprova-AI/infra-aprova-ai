@@ -223,3 +223,6 @@ Para dúvidas ou problemas:
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+---
+*Última atualização: Teste de infraestrutura Azure com 3 VMs*
