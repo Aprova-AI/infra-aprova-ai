@@ -42,4 +42,6 @@ resource "azurerm_monitor_data_collection_rule" "main" {
       counter_specifiers            = ["*"]
     }
   }
+  
+  tags = var.tags
 } 
