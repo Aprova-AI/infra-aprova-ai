@@ -41,6 +41,11 @@ output "vm_micro_public_ip" {
   value       = azurerm_public_ip.vm_micro.ip_address
 }
 
+output "vm_ansible_public_ip" {
+  description = "Public IP address of the Ansible VM"
+  value       = azurerm_public_ip.vm_ansible.ip_address
+}
+
 # VMs
 output "vm_large_id" {
   description = "ID of the large VM"
@@ -55,6 +60,11 @@ output "vm_xlarge_id" {
 output "vm_micro_id" {
   description = "ID of the micro VM"
   value       = azurerm_linux_virtual_machine.vm_micro.id
+}
+
+output "vm_ansible_id" {
+  description = "ID of the Ansible VM"
+  value       = azurerm_linux_virtual_machine.vm_ansible.id
 }
 
 output "vm_large_private_ip" {
@@ -72,6 +82,11 @@ output "vm_micro_private_ip" {
   value       = azurerm_network_interface.vm_micro.private_ip_address
 }
 
+output "vm_ansible_private_ip" {
+  description = "Private IP address of the Ansible VM"
+  value       = azurerm_network_interface.vm_ansible.private_ip_address
+}
+
 # SSH Connection Commands
 output "ssh_commands" {
   description = "SSH commands to connect to the VMs"
@@ -79,6 +94,7 @@ output "ssh_commands" {
     vm_large  = "ssh ${var.admin_username}@${azurerm_public_ip.vm_large.ip_address}"
     vm_xlarge = "ssh ${var.admin_username}@${azurerm_public_ip.vm_xlarge.ip_address}"
     vm_micro  = "ssh ${var.admin_username}@${azurerm_public_ip.vm_micro.ip_address}"
+    vm_ansible = "ssh ${var.admin_username}@${azurerm_public_ip.vm_ansible.ip_address}"
   }
 }
 
@@ -101,6 +117,7 @@ output "estimated_monthly_cost" {
     vm_large_monthly  = "~$73/month (Standard_B2s)"
     vm_xlarge_monthly = "~$146/month (Standard_B4ms)"
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
-    total_estimated   = "~$237/month (VMs only, excluding networking and monitoring)"
+    vm_ansible_monthly = "~$18/month (Standard_B1s)"
+    total_estimated   = "~$255/month (VMs only, excluding networking and monitoring)"
   }
 } 
