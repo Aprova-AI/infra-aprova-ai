@@ -146,6 +146,21 @@ resource "azurerm_network_security_rule" "large_port_27072" {
   network_security_group_name = azurerm_network_security_group.vm_large.name
 }
 
+# Regra para Coolify na VM Large
+resource "azurerm_network_security_rule" "large_coolify" {
+  name                        = "Coolify"
+  priority                    = 1006
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8000"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_large.name
+}
+
 # NSG para VM XLarge
 resource "azurerm_network_security_group" "vm_xlarge" {
   name                = "nsg-vm-xlarge-${var.environment}"
