@@ -161,6 +161,12 @@ resource "azurerm_network_security_rule" "large_coolify" {
   network_security_group_name = azurerm_network_security_group.vm_large.name
 }
 
+# Import da regra Coolify existente
+import {
+  to = azurerm_network_security_rule.large_coolify
+  id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/Coolify"
+}
+
 # NSG para VM XLarge
 resource "azurerm_network_security_group" "vm_xlarge" {
   name                = "nsg-vm-xlarge-${var.environment}"
