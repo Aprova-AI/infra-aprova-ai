@@ -159,10 +159,12 @@ resource "azurerm_network_security_rule" "large_coolify" {
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.main.name
   network_security_group_name = azurerm_network_security_group.vm_large.name
+}
 
-  import {
-    id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/Coolify"
-  }
+# Import da regra Coolify existente
+import {
+  to = azurerm_network_security_rule.large_coolify
+  id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-large-prod/securityRules/Coolify"
 }
 
 # NSG para VM XLarge
