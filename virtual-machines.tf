@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine" "vm_large" {
   name                = "vm-aprova-ai-1"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  size                = "Standard_B2s"
+  size                = "Standard_B4ms"
   admin_username      = var.admin_username
   
   network_interface_ids = [
