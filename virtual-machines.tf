@@ -143,8 +143,9 @@ resource "azurerm_linux_virtual_machine" "vm_monitoring" {
   name                = "vm-aprova-ai-monitoring"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  size                = "Standard_D2s_v5"
+  size                = "Standard_D2as_v6"
   admin_username      = var.admin_username
+  zone                = "1"
   
   network_interface_ids = [
     azurerm_network_interface.vm_monitoring.id,
