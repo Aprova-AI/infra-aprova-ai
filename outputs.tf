@@ -125,7 +125,7 @@ output "estimated_monthly_cost" {
     vm_xlarge_monthly = "~$146/month (Standard_B4ms)"
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
     vm_ansible_monthly = "~$18/month (Standard_B1s)"
-    vm_monitoring_monthly = "~$73/month (Standard_D2s_v3)"
+    vm_monitoring_monthly = "~$73/month (Standard_D2s_v5)"
     total_estimated   = "~$328/month (VMs only, excluding networking)"
   }
 } 

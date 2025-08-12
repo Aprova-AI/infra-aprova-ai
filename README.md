@@ -9,7 +9,7 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
 - **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-2`
 - **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-3`
 - **Ansible Control Node** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-4`
-- **VM Monitoramento** → **Standard_D2s_v3** (2 vCPUs, 8 GB RAM) → `vm-aprova-ai-monitoring`
+- **VM Monitoramento** → **Standard_D2s_v5** (2 vCPUs, 8 GB RAM) → `vm-aprova-ai-monitoring`
 
 ### Componentes da Infraestrutura
 - **Resource Group**: Agrupamento de recursos
