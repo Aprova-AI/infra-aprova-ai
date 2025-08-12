@@ -290,4 +290,61 @@ resource "azurerm_network_security_group" "vm_ansible" {
 resource "azurerm_network_interface_security_group_association" "vm_ansible" {
   network_interface_id      = azurerm_network_interface.vm_ansible.id
   network_security_group_id = azurerm_network_security_group.vm_ansible.id
+}
+
+# NSG para VM Monitoring
+resource "azurerm_network_security_group" "vm_monitoring" {
+  name                = "nsg-vm-monitoring-${var.environment}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  
+  tags = var.tags
+}
+
+# Regras do NSG para VM Monitoring
+resource "azurerm_network_security_rule" "monitoring_ssh" {
+  name                        = "SSH"
+  priority                    = 1001
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = var.allowed_ssh_ips[0]
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_monitoring.name
+}
+
+resource "azurerm_network_security_rule" "monitoring_http" {
+  name                        = "HTTP"
+  priority                    = 1002
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_monitoring.name
+}
+
+resource "azurerm_network_security_rule" "monitoring_https" {
+  name                        = "HTTPS"
+  priority                    = 1003
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_monitoring.name
+}
+
+resource "azurerm_network_interface_security_group_association" "vm_monitoring" {
+  network_interface_id      = azurerm_network_interface.vm_monitoring.id
+  network_security_group_id = azurerm_network_security_group.vm_monitoring.id
 } 

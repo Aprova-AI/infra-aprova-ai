@@ -57,6 +57,16 @@ resource "azurerm_public_ip" "vm_ansible" {
   tags = var.tags
 }
 
+resource "azurerm_public_ip" "vm_monitoring" {
+  name                = "pip-vm-monitoring-${var.environment}"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  
+  tags = var.tags
+}
+
 # Network Interfaces
 resource "azurerm_network_interface" "vm_large" {
   name                = "nic-vm-large-${var.environment}"
@@ -113,6 +123,21 @@ resource "azurerm_network_interface" "vm_ansible" {
     subnet_id                     = azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm_ansible.id
+  }
+  
+  tags = var.tags
+}
+
+resource "azurerm_network_interface" "vm_monitoring" {
+  name                = "nic-vm-monitoring-${var.environment}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.vm_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm_monitoring.id
   }
   
   tags = var.tags

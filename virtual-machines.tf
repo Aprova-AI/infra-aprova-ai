@@ -136,4 +136,39 @@ resource "azurerm_linux_virtual_machine" "vm_ansible" {
   disable_password_authentication = true
   
   tags = var.tags
+}
+
+# VM 5 - Aprova AI Monitoring (Ubuntu 22.04 LTS)
+resource "azurerm_linux_virtual_machine" "vm_monitoring" {
+  name                = "vm-aprova-ai-monitoring"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  size                = "Standard_D2s_v5"
+  admin_username      = var.admin_username
+  
+  network_interface_ids = [
+    azurerm_network_interface.vm_monitoring.id,
+  ]
+
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = var.ssh_public_key
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+    disk_size_gb         = 128
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
+    version   = "latest"
+  }
+  
+  disable_password_authentication = true
+  
+  tags = var.tags
 } 

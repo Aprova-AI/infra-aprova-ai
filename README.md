@@ -5,10 +5,11 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
 ## 🏗️ Arquitetura
 
 ### Mapeamento de Tamanhos EC2 → Azure
-- **t4g.large** → **Standard_B2s** (2 vCPUs, 4 GB RAM) → `vm-aprova-ai-1`
+- **t4g.large** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-1`
 - **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-2`
 - **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-3`
 - **Ansible Control Node** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-4`
+- **VM Monitoramento** → **Standard_D2s_v5** (2 vCPUs, 8 GB RAM) → `vm-aprova-ai-monitoring`
 
 ### Componentes da Infraestrutura
 - **Resource Group**: Agrupamento de recursos
@@ -18,10 +19,10 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
   - **VM Aprova AI 2**: TCP (21, 22, 443, 27072, 5432)
   - **VM Aprova AI 3**: TCP (22, 80, 443), UDP (10447)
   - **VM Aprova AI 4 (Ansible)**: TCP (22)
-- **4 VMs Linux**: Debian 12 com diferentes tamanhos
+  - **VM Aprova AI Monitoring**: TCP (22, 80, 443)
+- **5 VMs Linux**: 4 VMs Debian 12 + 1 VM Ubuntu 22.04 LTS para monitoramento
 - **Public IPs**: IPs públicos estáticos para cada VM
-- **Log Analytics**: Monitoramento e logs centralizados
-- **Azure Monitor**: Coleta de métricas de performance
+
 
 ## 🚀 Pré-requisitos
 
@@ -148,26 +149,19 @@ terraform destroy
 
 ## 📊 Monitoramento
 
-### Log Analytics Workspace
-- Coleta de logs do sistema
-- Métricas de performance
-- Retenção de 30 dias
 
-### Métricas Coletadas
-- CPU, Memory, Disk I/O
-- Network traffic
-- System logs (syslog)
 
 ## 💰 Estimativa de Custos
 
 ### Custos Mensais Estimados (US East)
-- **VM Aprova AI 1 (Standard_B2s)**: ~$73/month
+- **VM Aprova AI 1 (Standard_B4ms)**: ~$146/month
 - **VM Aprova AI 2 (Standard_B4ms)**: ~$146/month  
 - **VM Aprova AI 3 (Standard_B1s)**: ~$18/month
 - **VM Aprova AI 4 - Ansible (Standard_B1s)**: ~$18/month
-- **Total VMs**: ~$255/month
-- **Networking + Monitoring**: ~$50-100/month
-- **Total Estimado**: ~$305-355/month
+- **VM Aprova AI Monitoring (Standard_D2s_v3)**: ~$73/month
+- **Total VMs**: ~$401/month
+- **Networking**: ~$50-100/month
+- **Total Estimado**: ~$451-501/month
 
 > ⚠️ **Nota**: Use `infracost breakdown --path .` para análise detalhada de custos.
 

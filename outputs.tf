@@ -46,6 +46,11 @@ output "vm_ansible_public_ip" {
   value       = azurerm_public_ip.vm_ansible.ip_address
 }
 
+output "vm_monitoring_public_ip" {
+  description = "Public IP address of the Monitoring VM"
+  value       = azurerm_public_ip.vm_monitoring.ip_address
+}
+
 # VMs
 output "vm_large_id" {
   description = "ID of the large VM"
@@ -65,6 +70,11 @@ output "vm_micro_id" {
 output "vm_ansible_id" {
   description = "ID of the Ansible VM"
   value       = azurerm_linux_virtual_machine.vm_ansible.id
+}
+
+output "vm_monitoring_id" {
+  description = "ID of the Monitoring VM"
+  value       = azurerm_linux_virtual_machine.vm_monitoring.id
 }
 
 output "vm_large_private_ip" {
@@ -87,6 +97,11 @@ output "vm_ansible_private_ip" {
   value       = azurerm_network_interface.vm_ansible.private_ip_address
 }
 
+output "vm_monitoring_private_ip" {
+  description = "Private IP address of the Monitoring VM"
+  value       = azurerm_network_interface.vm_monitoring.private_ip_address
+}
+
 # SSH Connection Commands
 output "ssh_commands" {
   description = "SSH commands to connect to the VMs"
@@ -95,6 +110,7 @@ output "ssh_commands" {
     vm_xlarge = "ssh ${var.admin_username}@${azurerm_public_ip.vm_xlarge.ip_address}"
     vm_micro  = "ssh ${var.admin_username}@${azurerm_public_ip.vm_micro.ip_address}"
     vm_ansible = "ssh ${var.admin_username}@${azurerm_public_ip.vm_ansible.ip_address}"
+    vm_monitoring = "ssh ${var.admin_username}@${azurerm_public_ip.vm_monitoring.ip_address}"
   }
 }
 
@@ -105,10 +121,11 @@ output "estimated_monthly_cost" {
   description = "Estimated monthly cost for the infrastructure"
   value = {
     note = "Run 'infracost breakdown --path .' to get detailed cost estimation"
-    vm_large_monthly  = "~$73/month (Standard_B2s)"
+    vm_large_monthly  = "~$146/month (Standard_B4ms)"
     vm_xlarge_monthly = "~$146/month (Standard_B4ms)"
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
     vm_ansible_monthly = "~$18/month (Standard_B1s)"
-    total_estimated   = "~$255/month (VMs only, excluding networking and monitoring)"
+    vm_monitoring_monthly = "~$73/month (Standard_D2s_v5)"
+    total_estimated   = "~$401/month (VMs only, excluding networking)"
   }
 } 
