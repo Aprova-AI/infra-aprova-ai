@@ -5,7 +5,7 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
 ## 🏗️ Arquitetura
 
 ### Mapeamento de Tamanhos EC2 → Azure
-- **t4g.large** → **Standard_B2s** (2 vCPUs, 4 GB RAM) → `vm-aprova-ai-1`
+- **t4g.large** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-1`
 - **t4g.xlarge** → **Standard_B4ms** (4 vCPUs, 16 GB RAM) → `vm-aprova-ai-2`
 - **t4g.micro** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-3`
 - **Ansible Control Node** → **Standard_B1s** (1 vCPU, 1 GB RAM) → `vm-aprova-ai-4`
@@ -154,14 +154,14 @@ terraform destroy
 ## 💰 Estimativa de Custos
 
 ### Custos Mensais Estimados (US East)
-- **VM Aprova AI 1 (Standard_B2s)**: ~$73/month
+- **VM Aprova AI 1 (Standard_B4ms)**: ~$146/month
 - **VM Aprova AI 2 (Standard_B4ms)**: ~$146/month  
 - **VM Aprova AI 3 (Standard_B1s)**: ~$18/month
 - **VM Aprova AI 4 - Ansible (Standard_B1s)**: ~$18/month
 - **VM Aprova AI Monitoring (Standard_D2s_v3)**: ~$73/month
-- **Total VMs**: ~$328/month
+- **Total VMs**: ~$401/month
 - **Networking**: ~$50-100/month
-- **Total Estimado**: ~$378-428/month
+- **Total Estimado**: ~$451-501/month
 
 > ⚠️ **Nota**: Use `infracost breakdown --path .` para análise detalhada de custos.
 

@@ -121,11 +121,11 @@ output "estimated_monthly_cost" {
   description = "Estimated monthly cost for the infrastructure"
   value = {
     note = "Run 'infracost breakdown --path .' to get detailed cost estimation"
-    vm_large_monthly  = "~$73/month (Standard_B2s)"
+    vm_large_monthly  = "~$146/month (Standard_B4ms)"
     vm_xlarge_monthly = "~$146/month (Standard_B4ms)"
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
     vm_ansible_monthly = "~$18/month (Standard_B1s)"
     vm_monitoring_monthly = "~$73/month (Standard_D2s_v5)"
-    total_estimated   = "~$328/month (VMs only, excluding networking)"
+    total_estimated   = "~$401/month (VMs only, excluding networking)"
   }
 } 

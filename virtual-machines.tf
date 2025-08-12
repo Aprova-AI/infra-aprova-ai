@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine" "vm_large" {
   name                = "vm-aprova-ai-1"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  size                = "Standard_B2s"
+  size                = "Standard_B4ms"
   admin_username      = var.admin_username
   
   network_interface_ids = [
@@ -22,9 +22,9 @@ resource "azurerm_linux_virtual_machine" "vm_large" {
   }
 
   source_image_reference {
-    publisher = "Debian"
-    offer     = "debian-12"
-    sku       = "12"
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
     version   = "latest"
   }
   
