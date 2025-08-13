@@ -1,6 +1,6 @@
 # Storage Account para logs e monitoramento
 resource "azurerm_storage_account" "logs_monitoring" {
-  name                     = "logsmonitoramentoaprovaai"
+  name                     = "logsmonitoringaprovaai"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"

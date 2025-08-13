@@ -21,7 +21,7 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
   - **VM Aprova AI 4 (Ansible)**: TCP (22, 9723)
   - **VM Aprova AI Monitoring**: TCP (22, 80, 443)
 - **5 VMs Linux**: 4 VMs Debian 12 + 1 VM Ubuntu 22.04 LTS para monitoramento
-- **Storage Account**: `logsmonitoramentoaprovaai` para logs e monitoramento
+- **Storage Account**: `logsmonitoringaprovaai` para logs e monitoramento
 - **Public IPs**: IPs públicos estáticos para cada VM
 
 
