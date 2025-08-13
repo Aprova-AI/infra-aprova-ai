@@ -145,7 +145,6 @@ resource "azurerm_linux_virtual_machine" "vm_monitoring" {
   location            = azurerm_resource_group.main.location
   size                = "Standard_D4als_v6"
   admin_username      = var.admin_username
-  zone                = "1"
   
   network_interface_ids = [
     azurerm_network_interface.vm_monitoring.id,
