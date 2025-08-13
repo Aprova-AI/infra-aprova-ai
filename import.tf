@@ -60,3 +60,26 @@ import {
   to = azurerm_network_security_rule.monitoring_https
   id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-monitoring-prod/securityRules/HTTPS"
 }
+
+# Import existing Network Interface Security Group Association for monitoring VM
+import {
+  to = azurerm_network_interface_security_group_association.vm_monitoring
+  id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkInterfaces/nic-vm-monitoring-prod|/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.Network/networkSecurityGroups/nsg-vm-monitoring-prod"
+}
+
+# Import existing Storage Containers
+import {
+  to = azurerm_storage_container.logs
+  id = "https://logsmonitoringaprovaai.blob.core.windows.net/logs"
+}
+
+import {
+  to = azurerm_storage_container.monitoring
+  id = "https://logsmonitoringaprovaai.blob.core.windows.net/monitoring"
+}
+
+# Import existing Monitoring VM
+import {
+  to = azurerm_linux_virtual_machine.vm_monitoring
+  id = "/subscriptions/a346bbab-4a12-49d7-ac00-819eb93c7802/resourceGroups/rg-aprova-ai-prod-v2/providers/Microsoft.compute/virtualMachines/vm-aprova-ai-monitoring"
+}
