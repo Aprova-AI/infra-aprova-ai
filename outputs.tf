@@ -116,6 +116,23 @@ output "ssh_commands" {
 
 
 
+# Storage Account
+output "storage_account_name" {
+  description = "Name of the logs and monitoring storage account"
+  value       = azurerm_storage_account.logs_monitoring.name
+}
+
+output "storage_account_primary_access_key" {
+  description = "Primary access key for the storage account"
+  value       = azurerm_storage_account.logs_monitoring.primary_access_key
+  sensitive   = true
+}
+
+output "storage_account_primary_blob_endpoint" {
+  description = "Primary blob endpoint for the storage account"
+  value       = azurerm_storage_account.logs_monitoring.primary_blob_endpoint
+}
+
 # Cost Estimation (for Infracost)
 output "estimated_monthly_cost" {
   description = "Estimated monthly cost for the infrastructure"
@@ -126,6 +143,7 @@ output "estimated_monthly_cost" {
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
     vm_ansible_monthly = "~$18/month (Standard_B1s)"
     vm_monitoring_monthly = "~$146/month (Standard_D4als_v6)"
-    total_estimated   = "~$474/month (VMs only, excluding networking)"
+    storage_monthly   = "~$20-50/month (depending on usage)"
+    total_estimated   = "~$494-524/month (VMs + Storage, excluding networking)"
   }
 } 
