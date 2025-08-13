@@ -175,6 +175,7 @@ infra-aprova-ai/
 ├── variables.tf         # Definição de variáveis
 ├── outputs.tf          # Outputs da infraestrutura
 ├── storage.tf          # Storage Account para logs e monitoramento
+├── import.tf           # Import de recursos existentes
 ├── terraform.tfvars.example  # Exemplo de configuração
 ├── README.md           # Este arquivo
 └── .gitignore         # Arquivos ignorados pelo Git
