@@ -139,8 +139,6 @@ resource "azurerm_linux_virtual_machine" "vm_ansible" {
 }
 
 # VM 5 - Aprova AI Monitoring (Ubuntu 22.04 LTS)
-# Temporarily commented out to avoid conflicts with existing resources
-/*
 resource "azurerm_linux_virtual_machine" "vm_monitoring" {
   name                = "vm-aprova-ai-monitoring"
   resource_group_name = azurerm_resource_group.main.name
@@ -173,5 +171,4 @@ resource "azurerm_linux_virtual_machine" "vm_monitoring" {
   disable_password_authentication = true
   
   tags = var.tags
-}
-*/ 
+} 
