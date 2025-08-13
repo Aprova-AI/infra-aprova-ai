@@ -15,12 +15,13 @@ Este projeto Terraform cria uma infraestrutura completa na Azure com 3 VMs Linux
 - **Resource Group**: Agrupamento de recursos
 - **Virtual Network**: Rede virtual `10.10.0.0/24` (East US)
 - **Network Security Groups**: Regras específicas para cada VM
-  - **VM Aprova AI 1**: TCP (22, 80, 443, 5432, 27072)
-  - **VM Aprova AI 2**: TCP (21, 22, 443, 27072, 5432)
-  - **VM Aprova AI 3**: TCP (22, 80, 443), UDP (10447)
-  - **VM Aprova AI 4 (Ansible)**: TCP (22)
+  - **VM Aprova AI 1**: TCP (22, 80, 443, 5432, 27072, 8000, 9723)
+  - **VM Aprova AI 2**: TCP (21, 22, 443, 27072, 5432, 9723)
+  - **VM Aprova AI 3**: TCP (22, 80, 443, 9723), UDP (10447)
+  - **VM Aprova AI 4 (Ansible)**: TCP (22, 9723)
   - **VM Aprova AI Monitoring**: TCP (22, 80, 443)
 - **5 VMs Linux**: 4 VMs Debian 12 + 1 VM Ubuntu 22.04 LTS para monitoramento
+- **Storage Account**: `logsmonitoramentoaprovaai` para logs e monitoramento
 - **Public IPs**: IPs públicos estáticos para cada VM
 
 
@@ -158,10 +159,11 @@ terraform destroy
 - **VM Aprova AI 2 (Standard_B4ms)**: ~$146/month  
 - **VM Aprova AI 3 (Standard_B1s)**: ~$18/month
 - **VM Aprova AI 4 - Ansible (Standard_B1s)**: ~$18/month
-- **VM Aprova AI Monitoring (Standard_D2s_v3)**: ~$73/month
-- **Total VMs**: ~$401/month
+- **VM Aprova AI Monitoring (Standard_D4als_v6)**: ~$146/month
+- **Storage Account**: ~$20-50/month (dependendo do uso)
+- **Total VMs**: ~$474/month
 - **Networking**: ~$50-100/month
-- **Total Estimado**: ~$451-501/month
+- **Total Estimado**: ~$544-624/month
 
 > ⚠️ **Nota**: Use `infracost breakdown --path .` para análise detalhada de custos.
 
@@ -172,6 +174,7 @@ infra-aprova-ai/
 ├── main.tf              # Recursos principais da infraestrutura
 ├── variables.tf         # Definição de variáveis
 ├── outputs.tf          # Outputs da infraestrutura
+├── storage.tf          # Storage Account para logs e monitoramento
 ├── terraform.tfvars.example  # Exemplo de configuração
 ├── README.md           # Este arquivo
 └── .gitignore         # Arquivos ignorados pelo Git

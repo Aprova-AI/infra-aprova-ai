@@ -66,6 +66,21 @@ resource "azurerm_network_security_rule" "micro_udp_10447" {
   network_security_group_name = azurerm_network_security_group.vm_micro.name
 }
 
+# Regra para monitoramento na VM Micro (porta 9723)
+resource "azurerm_network_security_rule" "micro_monitoring" {
+  name                        = "Monitoring"
+  priority                    = 1005
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "9723"
+  source_address_prefix       = "10.10.0.8"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_micro.name
+}
+
 # NSG para VM Large
 resource "azurerm_network_security_group" "vm_large" {
   name                = "nsg-vm-large-${var.environment}"
@@ -161,6 +176,21 @@ resource "azurerm_network_security_rule" "large_coolify" {
   network_security_group_name = azurerm_network_security_group.vm_large.name
 }
 
+# Regra para monitoramento na VM Large (porta 9723)
+resource "azurerm_network_security_rule" "large_monitoring" {
+  name                        = "Monitoring"
+  priority                    = 1007
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "9723"
+  source_address_prefix       = "10.10.0.8"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_large.name
+}
+
 # Import da regra Coolify existente
 import {
   to = azurerm_network_security_rule.large_coolify
@@ -247,6 +277,21 @@ resource "azurerm_network_security_rule" "xlarge_postgres" {
   network_security_group_name = azurerm_network_security_group.vm_xlarge.name
 }
 
+# Regra para monitoramento na VM XLarge (porta 9723)
+resource "azurerm_network_security_rule" "xlarge_monitoring" {
+  name                        = "Monitoring"
+  priority                    = 1006
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "9723"
+  source_address_prefix       = "10.10.0.8"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.main.name
+  network_security_group_name = azurerm_network_security_group.vm_xlarge.name
+}
+
 # Associar NSGs às Network Interfaces
 resource "azurerm_network_interface_security_group_association" "vm_large" {
   network_interface_id      = azurerm_network_interface.vm_large.id
@@ -282,6 +327,21 @@ resource "azurerm_network_security_group" "vm_ansible" {
           source_port_range           = "*"
           destination_port_range      = "22"
           source_address_prefix       = var.allowed_ssh_ips[0]
+          destination_address_prefix  = "*"
+          resource_group_name         = azurerm_resource_group.main.name
+          network_security_group_name = azurerm_network_security_group.vm_ansible.name
+        }
+
+        # Regra para monitoramento na VM Ansible (porta 9723)
+        resource "azurerm_network_security_rule" "ansible_monitoring" {
+          name                        = "Monitoring"
+          priority                    = 1002
+          direction                   = "Inbound"
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_port_range           = "*"
+          destination_port_range      = "9723"
+          source_address_prefix       = "10.10.0.8"
           destination_address_prefix  = "*"
           resource_group_name         = azurerm_resource_group.main.name
           network_security_group_name = azurerm_network_security_group.vm_ansible.name
