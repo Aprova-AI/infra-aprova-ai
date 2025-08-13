@@ -57,6 +57,8 @@ resource "azurerm_public_ip" "vm_ansible" {
   tags = var.tags
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 resource "azurerm_public_ip" "vm_monitoring" {
   name                = "pip-vm-monitoring-${var.environment}"
   resource_group_name = azurerm_resource_group.main.name
@@ -66,6 +68,7 @@ resource "azurerm_public_ip" "vm_monitoring" {
   
   tags = var.tags
 }
+*/
 
 # Network Interfaces
 resource "azurerm_network_interface" "vm_large" {
@@ -128,6 +131,8 @@ resource "azurerm_network_interface" "vm_ansible" {
   tags = var.tags
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 resource "azurerm_network_interface" "vm_monitoring" {
   name                = "nic-vm-monitoring-${var.environment}"
   location            = azurerm_resource_group.main.location
@@ -141,4 +146,5 @@ resource "azurerm_network_interface" "vm_monitoring" {
   }
   
   tags = var.tags
-} 
+}
+*/ 

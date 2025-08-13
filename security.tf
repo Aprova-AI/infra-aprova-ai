@@ -352,6 +352,8 @@ resource "azurerm_network_interface_security_group_association" "vm_ansible" {
   network_security_group_id = azurerm_network_security_group.vm_ansible.id
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 # NSG para VM Monitoring
 resource "azurerm_network_security_group" "vm_monitoring" {
   name                = "nsg-vm-monitoring-${var.environment}"
@@ -407,4 +409,5 @@ resource "azurerm_network_security_rule" "monitoring_https" {
 resource "azurerm_network_interface_security_group_association" "vm_monitoring" {
   network_interface_id      = azurerm_network_interface.vm_monitoring.id
   network_security_group_id = azurerm_network_security_group.vm_monitoring.id
-} 
+}
+*/ 

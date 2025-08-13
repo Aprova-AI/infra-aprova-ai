@@ -46,10 +46,13 @@ output "vm_ansible_public_ip" {
   value       = azurerm_public_ip.vm_ansible.ip_address
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 output "vm_monitoring_public_ip" {
   description = "Public IP address of the Monitoring VM"
   value       = azurerm_public_ip.vm_monitoring.ip_address
 }
+*/
 
 # VMs
 output "vm_large_id" {
@@ -72,10 +75,13 @@ output "vm_ansible_id" {
   value       = azurerm_linux_virtual_machine.vm_ansible.id
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 output "vm_monitoring_id" {
   description = "ID of the Monitoring VM"
   value       = azurerm_linux_virtual_machine.vm_monitoring.id
 }
+*/
 
 output "vm_large_private_ip" {
   description = "Private IP address of the large VM"
@@ -97,10 +103,13 @@ output "vm_ansible_private_ip" {
   value       = azurerm_network_interface.vm_ansible.private_ip_address
 }
 
+# Temporarily commented out to avoid conflicts with existing resources
+/*
 output "vm_monitoring_private_ip" {
   description = "Private IP address of the Monitoring VM"
   value       = azurerm_network_interface.vm_monitoring.private_ip_address
 }
+*/
 
 # SSH Connection Commands
 output "ssh_commands" {
@@ -110,7 +119,7 @@ output "ssh_commands" {
     vm_xlarge = "ssh ${var.admin_username}@${azurerm_public_ip.vm_xlarge.ip_address}"
     vm_micro  = "ssh ${var.admin_username}@${azurerm_public_ip.vm_micro.ip_address}"
     vm_ansible = "ssh ${var.admin_username}@${azurerm_public_ip.vm_ansible.ip_address}"
-    vm_monitoring = "ssh ${var.admin_username}@${azurerm_public_ip.vm_monitoring.ip_address}"
+    # vm_monitoring = "ssh ${var.admin_username}@${azurerm_public_ip.vm_monitoring.ip_address}"
   }
 }
 
@@ -142,7 +151,7 @@ output "estimated_monthly_cost" {
     vm_xlarge_monthly = "~$146/month (Standard_B4ms)"
     vm_micro_monthly  = "~$18/month (Standard_B1s)"
     vm_ansible_monthly = "~$18/month (Standard_B1s)"
-    vm_monitoring_monthly = "~$146/month (Standard_D4als_v6)"
+    # vm_monitoring_monthly = "~$146/month (Standard_D4als_v6)"
     storage_monthly   = "~$20-50/month (depending on usage)"
     total_estimated   = "~$494-524/month (VMs + Storage, excluding networking)"
   }
